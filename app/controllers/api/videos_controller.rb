@@ -6,8 +6,16 @@ class API::VideosController < ApplicationController
     end 
 
     def show
-        @video = Video.find(params[:id])
+        @video = Video.find_by(id: params[:id])
+        if @video 
         render json: @video, status: 200
+        else 
+            render json: {
+                errors: {
+                    messages: { @video: "Can't be found"}
+                }
+            }, status: 404
+            end 
     end 
 
     def create
